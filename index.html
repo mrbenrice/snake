@@ -9,10 +9,16 @@
 </head>
 <body>
     <div class="flexContainer">
+        <div class="leftPanel">
+            <button id="easyModeButton">Easy</button>
+            <button id="medModeButton">Medium</button>
+            <button id="hardModeButton">Hard</button>
+            <button id="expModeButton">Expert</button>
+            <button id="resetButton" onclick="window.location.reload()">Reset</button>
+        </div>
         <div class="gameContainer">
             <canvas id="gameBoard" height="500px" width="500px"></canvas>
             <div class="scoreText">0</div>
-            <button id="resetButton">Reset</button>
         </div>
 
     </div>

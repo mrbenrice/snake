@@ -1,7 +1,13 @@
+loadSnake(); 
+function loadSnake() {
 const gameBoard = document.querySelector('#gameBoard')
 const ctx = gameBoard.getContext('2d');
 const scoreText = document.querySelector('.scoreText')
 const resetButton = document.querySelector('#resetButton')
+const easyButton = document.querySelector('#easyModeButton')
+const mediumButton = document.querySelector('#medModeButton')
+const hardButton = document.querySelector('#hardModeButton')
+const expertButton = document.querySelector('#expModeButton')
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
 const boardBackground = 'white'
@@ -24,9 +30,16 @@ let snake = [
 ]
 
 window.addEventListener('keydown', changeDirection);
-resetButton.addEventListener('click', resetGame);
+easyButton.addEventListener('click', easyMode, gameStart)
+easyButton.addEventListener('click', () => {
+    console.log(unitSize)
+    console.log(tickLength)
+    console.log(snake)
+})
+mediumButton.addEventListener('click', mediumMode, gameStart);
+hardButton.addEventListener('click', hardMode, gameStart);
+expertButton.addEventListener('click', expertMode, gameStart)
 
-gameStart();
 
 function gameStart(){
     running = true;
@@ -34,6 +47,10 @@ function gameStart(){
     createFood();
     drawFood();
     nextTick();
+    easyButton.style.visibility = 'hidden'
+    mediumButton.style.visibility = 'hidden'
+    hardButton.style.visibility = 'hidden'
+    expertButton.style.visibility = 'hidden'
 };
 
 function nextTick(){
@@ -95,10 +112,15 @@ function drawSnake(){
 
 function changeDirection(event){
     const keyPressed = event.keyCode
+    console.log(event.keyCode)
     const LEFT = 37;
+    const aLEFT = 65
     const UP = 38;
+    const wUP = 87
     const RIGHT = 39;
+    const dRIGHT = 68
     const DOWN = 40;
+    const sDOWN = 83
 
     const goingUP = (yVelocity == -unitSize);
     const goingDOWN = (yVelocity == unitSize);
@@ -119,6 +141,22 @@ function changeDirection(event){
             yVelocity = 0
             break;
         case(keyPressed == DOWN && !goingUP):
+            xVelocity = 0
+            yVelocity = unitSize
+            break;
+            case(keyPressed == aLEFT && !goingRIGHT):
+            xVelocity = -unitSize
+            yVelocity = 0
+            break;
+        case(keyPressed == wUP && !goingDOWN):
+            xVelocity = 0
+            yVelocity = -unitSize
+            break;
+        case(keyPressed == dRIGHT && !goingLEFT):
+            xVelocity = unitSize
+            yVelocity = 0
+            break;
+        case(keyPressed == sDOWN && !goingUP):
             xVelocity = 0
             yVelocity = unitSize
             break;
@@ -153,9 +191,14 @@ function displayGameOver(){
     ctx.textAlign = "center";
     ctx.fillText("Game over!", gameWidth / 2, gameHeight / 2);
     running = false;
+    easyButton.style.visibility = 'visible'
+    mediumButton.style.visibility = 'visible'
+    hardButton.style.visibility = 'visible'
+    expertButton.style.visibility = 'visible'
 };
 
 function resetGame(){
+    running == false;
     score = 0;
     xVelocity = unitSize;
     yVelocity = 0
@@ -167,3 +210,21 @@ function resetGame(){
     ];
     gameStart();
 };
+
+function easyMode() {
+    resetGame();
+    tickLength = 250
+}
+function mediumMode() {
+    resetGame();
+    tickLength = 175
+}
+function hardMode() {
+    resetGame();
+    tickLength = 100
+}
+function expertMode() {
+    resetGame();
+    tickLength = 50
+}
+}
